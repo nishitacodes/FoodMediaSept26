@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Technical Gastronome | Nishita</title>
-    
-    <!-- Google Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,12 +32,8 @@
         }
     </script>
     <style>
-        body {
-            background-color: #050505;
-            color: #f5f5f5;
-        }
+        body { background-color: #050505; color: #f5f5f5; }
 
-        /* Glassmorphism Utilities */
         .glass {
             background: rgba(26, 26, 26, 0.4);
             backdrop-filter: blur(16px);
@@ -47,53 +41,51 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
-        
+        .glass-hover { transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .glass-hover:hover {
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(212, 175, 55, 0.4);
             transform: translateY(-5px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* SPA Tab Transitions */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.6s ease-in-out forwards;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
+        .tab-content { display: none; animation: fadeIn 0.6s ease-in-out forwards; }
+        .tab-content.active { display: block; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Nav Link Active State */
-        .nav-link.active {
-            color: #d4af37; /* Gold */
-            border-bottom: 2px solid #d4af37;
-        }
+        .nav-link.active { color: #d4af37; border-bottom: 2px solid #d4af37; }
 
-        /* Image Zoom FX */
-        .zoom-container {
-            overflow: hidden;
-        }
-        .zoom-container img {
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .group:hover .zoom-container img {
-            transform: scale(1.08);
-        }
+        .zoom-container { overflow: hidden; }
+        .zoom-container img { transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .group:hover .zoom-container img { transform: scale(1.08); }
 
-        /* Custom Selection */
-        ::selection {
-            background-color: rgba(217, 119, 87, 0.6);
-            color: #fff;
+        /* Scroll reveal */
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Floating hero glow */
+        @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+        .floaty { animation: floaty 6s ease-in-out infinite; }
+
+        /* Lightbox */
+        #lightbox {
+            position: fixed; inset: 0; z-index: 100; display: none;
+            background: rgba(0,0,0,0.92); align-items: center; justify-content: center; padding: 1.5rem;
+            cursor: zoom-out;
         }
+        #lightbox.open { display: flex; }
+        #lightbox img { max-width: 100%; max-height: 90vh; border-radius: 0.75rem; box-shadow: 0 0 60px rgba(212,175,55,0.2); }
+        .lightbox-trigger { cursor: zoom-in; }
+
+        ::selection { background-color: rgba(217, 119, 87, 0.6); color: #fff; }
     </style>
 </head>
 <body class="antialiased font-sans flex flex-col min-h-screen overflow-x-hidden selection:bg-terracotta selection:text-white">
+
+    <!-- Lightbox -->
+    <div id="lightbox" onclick="this.classList.remove('open')"><img id="lightbox-img" src="" alt=""></div>
 
     <!-- Navigation -->
     <nav class="fixed w-full top-0 z-50 glass border-b-0 border-white/10">
@@ -102,16 +94,12 @@
                 <a href="#" onclick="switchTab('home')" class="font-serif text-2xl font-bold tracking-wide text-white hover:text-gold transition-colors">
                     The Technical Gastronome
                 </a>
-                
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8">
                     <button onclick="switchTab('home')" id="nav-home" class="nav-link active text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Home</button>
                     <button onclick="switchTab('chef')" id="nav-chef" class="nav-link text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Chef Focus</button>
                     <button onclick="switchTab('posts')" id="nav-posts" class="nav-link text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Foodie Posts</button>
                     <button onclick="switchTab('critiques')" id="nav-critiques" class="nav-link text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Critiques</button>
                 </div>
-
-                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -119,7 +107,6 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10">
             <div class="px-4 pt-2 pb-4 space-y-1 flex flex-col">
                 <button onclick="switchTab('home')" class="text-left px-3 py-2 text-sm uppercase tracking-widest text-gray-300 hover:text-gold">Home</button>
@@ -130,16 +117,15 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT AREA -->
     <main class="flex-grow pt-20">
 
         <!-- ================= TAB 1: HOME ================= -->
         <section id="home" class="tab-content active">
-            <!-- Hero -->
+            <!-- Hero: fine dining plates -->
             <div class="relative h-[85vh] flex items-center justify-center overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556910103-1c02745a872f?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-40"></div>
+                <div class="absolute inset-0 bg-[url('fine-dining-40th.jpg')] bg-cover bg-center opacity-40"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
-                
+
                 <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
                     <span class="text-gold tracking-[0.3em] text-sm font-semibold uppercase mb-4 block">@nishitaeats</span>
                     <h1 class="font-serif text-5xl md:text-7xl text-white mb-6 leading-tight">Digital Gastronomy</h1>
@@ -153,7 +139,7 @@
             <!-- About Me -->
             <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    <div class="space-y-6">
+                    <div class="space-y-6 reveal">
                         <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-8"></div>
                         <h2 class="font-serif text-4xl md:text-5xl text-white leading-tight">Compiling Flavors</h2>
                         <p class="text-muted text-lg leading-relaxed font-light">
@@ -163,12 +149,53 @@
                             To me, a recipe is an algorithm. Just as code requires perfect syntax to execute efficiently, a dish requires immaculate technique, temperature control, and plating precision. My foodie identity isn't just about eating; it's about understanding the architecture of flavor and the logistics of the kitchen pass.
                         </p>
                     </div>
-                    <div class="relative group">
+                    <div class="relative group reveal">
                         <div class="absolute -inset-4 border border-gold/20 rounded-lg translate-x-4 translate-y-4 -z-10 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
                         <div class="zoom-container rounded-lg shadow-2xl">
-                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=800" alt="Precision Plating" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700">
+                            <img src="plating-notebook.jpg" alt="Hand-drawn plating plan in my notebook" class="lightbox-trigger w-full h-auto transition-all duration-700">
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Plating Sketchbook -->
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
+                <div class="text-center mb-12 reveal">
+                    <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">From Sketch to Service</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-white mb-4">The Plating Sketchbook</h2>
+                    <p class="text-muted font-light max-w-2xl mx-auto">Every plate starts as a diagram. I map out components, placement and garnish long before anything touches the pan, in a notebook, on the plate itself with a marker, or as a clean digital concept.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <article class="glass glass-hover rounded-2xl overflow-hidden group reveal">
+                        <div class="zoom-container h-80">
+                            <img src="plating-notebook.jpg" alt="Notebook plating sketch" class="lightbox-trigger w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-serif text-xl text-gold mb-2">Notebook Blueprint</h4>
+                            <p class="text-sm text-muted">The first draft: component lists, garnish notes and a top-down plan of the plate, labelled like a schematic.</p>
+                        </div>
+                    </article>
+
+                    <article class="glass glass-hover rounded-2xl overflow-hidden group reveal">
+                        <div class="zoom-container h-80">
+                            <img src="plating-plate-marker.jpg" alt="Plating plan drawn on a plate with whiteboard markers" class="lightbox-trigger w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-serif text-xl text-gold mb-2">Marker on the Plate</h4>
+                            <p class="text-sm text-muted">Testing spacing on the real plate with whiteboard markers: cucumber, onion, prawn, tomato, capsicum, cilantro and micro greens all mapped out.</p>
+                        </div>
+                    </article>
+
+                    <article class="glass glass-hover rounded-2xl overflow-hidden group reveal">
+                        <div class="zoom-container h-80">
+                            <img src="plating-digital.jpg" alt="Digital plating concept of tortilla cones on a rice bed" class="lightbox-trigger w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-serif text-xl text-gold mb-2">Digital Concept</h4>
+                            <p class="text-sm text-muted">Golden-fried tortilla cones filled with achiote chicken and spherical pineapple pearls, finished with micro-cilantro over an uncooked white rice bed.</p>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -176,14 +203,13 @@
         <!-- ================= TAB 2: CHEF FOCUS ================= -->
         <section id="chef" class="tab-content">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-                <!-- Bio Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
                     <div class="lg:col-span-5 relative group">
                         <div class="zoom-container rounded-2xl shadow-2xl glass">
                             <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=800" alt="Chef in action" class="w-full h-[500px] object-cover grayscale group-hover:grayscale-0">
                         </div>
                     </div>
-                    
+
                     <div class="lg:col-span-7 space-y-8">
                         <div>
                             <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">Inspiration</span>
@@ -192,7 +218,7 @@
                                 Born in Johnstone, Scotland, Ramsay's journey from athlete to multi-Michelin-starred chef exemplifies rigorous discipline. Beyond his intense TV persona, he is a master technician. I am inspired by his relentless standards, precise butchery, and ability to elevate simple ingredients through foundational cooking methods.
                             </p>
                         </div>
-                        
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="glass p-5 rounded-xl border-l-2 border-gold">
                                 <h3 class="text-gold font-semibold uppercase tracking-wider text-xs mb-2">Notable Media</h3>
@@ -214,11 +240,9 @@
                     </div>
                 </div>
 
-                <!-- Media Grid -->
                 <h3 class="font-serif text-3xl text-white text-center mb-10">Media Analysis</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <!-- Media 1 -->
+
                     <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
                         <div class="relative h-56 zoom-container">
                             <img src="https://images.unsplash.com/photo-1544025162-831c261e4d3f?auto=format&fit=crop&q=80&w=600" alt="Beef Wellington" class="w-full h-full object-cover">
@@ -235,7 +259,6 @@
                         </div>
                     </article>
 
-                    <!-- Media 2 -->
                     <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
                         <div class="relative h-56 zoom-container">
                             <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=600" alt="Scrambled Eggs" class="w-full h-full object-cover">
@@ -257,7 +280,6 @@
                         </div>
                     </article>
 
-                    <!-- Media 3 -->
                     <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
                         <div class="relative h-56 zoom-container">
                             <img src="https://images.unsplash.com/photo-1556910103-1c02745a872e?auto=format&fit=crop&q=80&w=600" alt="Kitchen Pass" class="w-full h-full object-cover">
@@ -286,74 +308,91 @@
                 </div>
 
                 <div class="space-y-16">
-                    <!-- Post 1 -->
-                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group">
-                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-72">
-                            <img src="https://images.unsplash.com/photo-1583394208035-7d88fbac988e?auto=format&fit=crop&q=80&w=800" alt="Korean Jjajangbap" class="w-full h-full object-cover">
+
+                    <!-- Post 1: Francobolli -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group reveal">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
+                            <img src="francobolli-pasta.jpg" alt="Handmade pappardelle at Francobolli" class="lightbox-trigger w-full h-full object-cover">
                         </div>
                         <div class="w-full md:w-1/2 space-y-4">
                             <div class="flex items-center gap-3 mb-2">
-                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50">
-                                    <span class="text-gold font-serif font-bold">N</span>
-                                </div>
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50"><span class="text-gold font-serif font-bold">N</span></div>
                                 <div>
                                     <p class="text-sm font-bold text-white">@nishitaeats</p>
-                                    <p class="text-xs text-muted">K Fry Urban Korean</p>
+                                    <p class="text-xs text-muted">Francobolli</p>
                                 </div>
                             </div>
-                            <p class="text-light text-lg">"The deep, roasted complexity of black bean sauce cascading over perfectly steamed rice. This Korean Jjajangbap from K Fry is a masterclass in savory balance. The ultimate comfort compile. 🍛✨ #KoreanCuisine #Jjajangbap #ComfortFood"</p>
+                            <p class="text-light text-lg">"Ribbons of handmade pasta folded into a rich, earthy ragu and finished with a snowfall of aged cheese. Francobolli is where Chef Edric works now, and this plate shows exactly why. 🍝✨ #HandmadePasta #FineDining #Francobolli"</p>
                             <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
                                 <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
-                                <p class="text-sm text-muted"><strong class="text-white">Angle & Words:</strong> Overhead 90-degree flatlay to emphasize the stark contrast between the dark, glossy black bean sauce and the vibrant side garnishes. Descriptive words like "roasted complexity" and "cascading" highlight the sauce formulation.</p>
-                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> I explore how different cultures achieve umami depth, analyzing the viscosity and mouthfeel of global sauces.</p>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle &amp; Words:</strong> A slightly elevated 45-degree shot on a clean white rim to let the golden pasta ribbons and glossy sauce carry the frame. Words like "folded" and "snowfall" point to the layering of texture.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> Supporting a chef I know and seeing technique executed this cleanly is exactly why I eat out with a critical eye.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Post 2 -->
-                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row-reverse gap-8 items-center group">
-                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-72">
-                            <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&q=80&w=800" alt="Sri Lankan Mutton Varuval" class="w-full h-full object-cover">
+                    <!-- Post 2: Toasted Tiffin -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row-reverse gap-8 items-center group reveal">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
+                            <img src="toasted-tiffin.jpg" alt="Toasted tiffin stall sandwiches, prawn toast and pastries" class="lightbox-trigger w-full h-full object-cover">
                         </div>
                         <div class="w-full md:w-1/2 space-y-4">
                             <div class="flex items-center gap-3 mb-2">
-                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50">
-                                    <span class="text-gold font-serif font-bold">N</span>
-                                </div>
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50"><span class="text-gold font-serif font-bold">N</span></div>
                                 <div>
                                     <p class="text-sm font-bold text-white">@nishitaeats</p>
-                                    <p class="text-xs text-muted">Ola Lina</p>
+                                    <p class="text-xs text-muted">Toasted Tiffin Stall, Taylor's University</p>
                                 </div>
                             </div>
-                            <p class="text-light text-lg">"Respecting the ingredient means knowing how to braise it. This Sri Lankan Mutton Varuval from Ola Lina features tender, slow-cooked mutton coated in a fiercely spiced, dry-roasted masala. Pure hardware programmed by fire. 🥩🔥 #SriLankanFood #MuttonVaruval"</p>
+                            <p class="text-light text-lg">"Supporting our seniors in their final semester, one tiffin box at a time. Toasted prawn, crisp-edged sandwiches and sweet bakes straight from the Toasted stall on campus. 🥪🍤 #SupportYourSeniors #CampusEats #Toasted"</p>
                             <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
                                 <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
-                                <p class="text-sm text-muted"><strong class="text-white">Angle & Words:</strong> A 45-degree macro texture shot with shallow depth of field (f/2.8) to focus on the caramelized crust of the braised mutton and the clinging spices. Words like "fiercely spiced" and "dry-roasted" evoke sensory heat.</p>
-                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> My culinary training makes me appreciate the patience and butchery required for perfect braising and slow-cooking techniques.</p>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle &amp; Words:</strong> Overhead flatlay on the cafe table, with the kraft boxes grouped to show the full spread. Warm wood tones and natural light keep it casual and honest.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> Food is also community. Backing a student-run stall is as much part of my food story as any fine dining dinner.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Post 3 -->
-                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group">
-                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-72">
-                            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&q=80&w=800" alt="Jalapeno Bombers" class="w-full h-full object-cover">
+                    <!-- Post 3: 40th Anniversary -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group reveal">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
+                            <img src="fine-dining-40th.jpg" alt="Fine dining Malaysian lunch plates for the university 40th anniversary" class="lightbox-trigger w-full h-full object-cover">
                         </div>
                         <div class="w-full md:w-1/2 space-y-4">
                             <div class="flex items-center gap-3 mb-2">
-                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50">
-                                    <span class="text-gold font-serif font-bold">N</span>
-                                </div>
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50"><span class="text-gold font-serif font-bold">N</span></div>
                                 <div>
                                     <p class="text-sm font-bold text-white">@nishitaeats</p>
-                                    <p class="text-xs text-muted">Texas Chicken</p>
+                                    <p class="text-xs text-muted">Taylor's University 40th Anniversary x Université Toulouse - Jean Jaurès</p>
                                 </div>
                             </div>
-                            <p class="text-light text-lg">"The architecture of a perfect bite. Jalapeno Bombers from Texas Chicken: a shatteringly crisp exterior yielding to molten, spicy cheese. A fast-food execution of perfect temperature control. 🌶️🧀 #Crispy #JalapenoBombers"</p>
+                            <p class="text-light text-lg">"Forty years of Taylor's, celebrated with Malaysian flavours plated as fine dining. Our lunch for our guests from Université Toulouse - Jean Jaurès was all about precision, colour and heritage. 🇲🇾🍽️ #FineDining #MalaysianCuisine #Taylors40"</p>
                             <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
                                 <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
-                                <p class="text-sm text-muted"><strong class="text-white">Angle & Words:</strong> Extreme close-up shot at plate level showing the cheese pull and crispy breading. The phrase "shatteringly crisp" juxtaposed with "molten" emphasizes textural contrast.</p>
-                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> I believe good food isn't just fine dining; it's recognizing brilliant technical execution (like perfectly maintained fryers) anywhere.</p>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle &amp; Words:</strong> A top-down shot of the finished plates against a dark tablecloth so the sauces, edible flowers and garnishes stand out. White plates act as the canvas.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> This is the dream: taking the plating sketches from my notebook and turning them into a real service that represents our cuisine.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 4: Birthday -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row-reverse gap-8 items-center group reveal">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
+                            <img src="birthday-dinner.jpg" alt="Birthday dinner spread" class="lightbox-trigger w-full h-full object-cover">
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50"><span class="text-gold font-serif font-bold">N</span></div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">@nishitaeats</p>
+                                    <p class="text-xs text-muted">Birthday Dinner</p>
+                                </div>
+                            </div>
+                            <p class="text-light text-lg">"Birthday dinner, table fully loaded: crispy bites, pasta, fries, sourdough and plenty to share. The best way to turn another year older. 🎂🍴 #BirthdayDinner #FoodieDiary #ShareTheTable"</p>
+                            <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
+                                <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle &amp; Words:</strong> A high overhead table-scape so every dish is visible at once. Words like "loaded" and "share" convey abundance and celebration.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> The best meals are social. Good food, good people and a table too small for all the plates.</p>
                             </div>
                         </div>
                     </div>
@@ -364,25 +403,20 @@
         <!-- ================= TAB 4: RESTAURANT CRITIQUES (COUNTDOWN) ================= -->
         <section id="critiques" class="tab-content">
             <div class="min-h-[80vh] flex flex-col items-center justify-center px-4 relative">
-                <!-- Background FX -->
                 <div class="absolute inset-0 bg-dark z-0 overflow-hidden">
                     <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-terracotta/10 rounded-full blur-[100px]"></div>
                     <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/10 rounded-full blur-[100px]"></div>
                 </div>
 
                 <div class="relative z-10 w-full max-w-4xl">
-                    <!-- Glass Banner -->
                     <div class="glass p-10 md:p-16 rounded-3xl text-center shadow-2xl border-t border-l border-white/20">
-                        <div class="inline-block p-4 bg-yellow-500/20 text-yellow-500 rounded-full mb-6">
+                        <div class="inline-block p-4 bg-yellow-500/20 text-yellow-500 rounded-full mb-6 floaty">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         </div>
-                        
-                        <h2 class="font-serif text-3xl md:text-5xl text-white mb-4 uppercase tracking-widest">Under Construction</h2>
-                        <p class="text-muted text-lg md:text-xl font-light italic mb-12">
-                            (Will be published on 11 Dec lol)
-                        </p>
 
-                        <!-- Countdown Timer Grid -->
+                        <h2 class="font-serif text-3xl md:text-5xl text-white mb-4 uppercase tracking-widest">Under Construction</h2>
+                        <p class="text-muted text-lg md:text-xl font-light italic mb-12">(Will be published on 11 Dec lol)</p>
+
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-3xl mx-auto">
                             <div class="bg-surface/60 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-md">
                                 <span id="days" class="block text-4xl md:text-6xl font-bold text-gold font-serif">00</span>
@@ -397,7 +431,7 @@
                                 <span class="text-xs uppercase tracking-widest text-muted mt-2 block">Minutes</span>
                             </div>
                             <div class="bg-surface/60 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-md">
-                                <span id="seconds" class="block text-4xl md:text-6xl font-bold text-gold font-serif animate-pulse text-terracotta">00</span>
+                                <span id="seconds" class="block text-4xl md:text-6xl font-bold font-serif animate-pulse text-terracotta">00</span>
                                 <span class="text-xs uppercase tracking-widest text-muted mt-2 block">Seconds</span>
                             </div>
                         </div>
@@ -408,74 +442,72 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-surface border-t border-white/5 py-8 mt-auto z-10 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center flex flex-col md:flex-row justify-between items-center">
             <p class="font-serif text-lg text-white mb-2 md:mb-0">The Technical Gastronome</p>
-            <p class="text-muted text-xs tracking-widest uppercase">© 2026 Nishita | Taylor's University Assignment</p>
+            <p class="text-muted text-xs tracking-widest uppercase">© 2026 Nishita | @nishitaeats</p>
         </div>
     </footer>
 
-    <!-- JavaScript Logistics -->
     <script>
-        // --- 1. Tab Switching Logic ---
+        // --- Tab switching ---
         function switchTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            // Remove active state from all nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // Show selected tab
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            // Highlight selected nav link (desktop)
             const activeNav = document.getElementById('nav-' + tabId);
-            if(activeNav) activeNav.classList.add('active');
-
-            // Close mobile menu if open
+            if (activeNav) activeNav.classList.add('active');
             document.getElementById('mobile-menu').classList.add('hidden');
-            
-            // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(observeReveals, 100);
         }
 
-        // Mobile menu toggle
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
+        // --- Scroll reveal ---
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        function observeReveals() {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+        }
+        observeReveals();
 
-        // --- 2. Countdown Timer Logic (Dec 11, 2026) ---
+        // --- Lightbox ---
+        document.querySelectorAll('.lightbox-trigger').forEach(img => {
+            img.addEventListener('click', () => {
+                const box = document.getElementById('lightbox');
+                const big = document.getElementById('lightbox-img');
+                big.src = img.src;
+                big.alt = img.alt;
+                box.classList.add('open');
+            });
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+        });
+
+        // --- Countdown (Dec 11, 2026) ---
         const countdownDate = new Date("Dec 11, 2026 00:00:00").getTime();
-
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
-
-            // Time calculations
+        const timer = setInterval(function () {
+            const distance = countdownDate - new Date().getTime();
+            if (distance < 0) {
+                clearInterval(timer);
+                ["days", "hours", "minutes", "seconds"].forEach(id => document.getElementById(id).innerText = "00");
+                return;
+            }
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Output the result, padding with 0 if single digit
-            document.getElementById("days").innerText = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
-
-            // If the countdown is finished
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("days").innerText = "00";
-                document.getElementById("hours").innerText = "00";
-                document.getElementById("minutes").innerText = "00";
-                document.getElementById("seconds").innerText = "00";
-            }
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
         }, 1000);
     </script>
 </body>
