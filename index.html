@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Technical Gastronome | Nishita</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#050505',
+                        surface: '#111111',
+                        panel: '#1a1a1a',
+                        gold: '#d4af37',
+                        terracotta: '#d97757',
+                        light: '#f5f5f5',
+                        muted: '#a3a3a3'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #f5f5f5;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-5px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* SPA Tab Transitions */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Nav Link Active State */
+        .nav-link.active {
+            color: #d4af37; /* Gold */
+            border-bottom: 2px solid #d4af37;
+        }
+
+        /* Image Zoom FX */
+        .zoom-container {
+            overflow: hidden;
+        }
+        .zoom-container img {
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .group:hover .zoom-container img {
+            transform: scale(1.08);
+        }
+
+        /* Custom Selection */
+        ::selection {
+            background-color: rgba(217, 119, 87, 0.6);
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans flex flex-col min-h-screen overflow-x-hidden selection:bg-terracotta selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 glass border-b-0 border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#" onclick="switchTab('home')" class="font-serif text-2xl font-bold tracking-wide text-white hover:text-gold transition-colors">
+                    The Technical Gastronome
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-link active text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Home</button>
+                    <button onclick="switchTab('chef')" id="nav-chef" class="nav-link text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Chef Focus</button>
+                    <button onclick="switchTab('posts')" id="nav-posts" class="nav-link text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Foodie Posts</button>
+                    <button onclick="switchTab('critiques')" id="nav-critiques" class="nav-link text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors py-2">Critiques</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10">
+            <div class="px-4 pt-2 pb-4 space-y-1 flex flex-col">
+                <button onclick="switchTab('home')" class="text-left px-3 py-2 text-sm uppercase tracking-widest text-gray-300 hover:text-gold">Home</button>
+                <button onclick="switchTab('chef')" class="text-left px-3 py-2 text-sm uppercase tracking-widest text-gray-300 hover:text-gold">Chef Focus</button>
+                <button onclick="switchTab('posts')" class="text-left px-3 py-2 text-sm uppercase tracking-widest text-gray-300 hover:text-gold">Foodie Posts</button>
+                <button onclick="switchTab('critiques')" class="text-left px-3 py-2 text-sm uppercase tracking-widest text-gray-300 hover:text-gold">Critiques</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-20">
+
+        <!-- ================= TAB 1: HOME ================= -->
+        <section id="home" class="tab-content active">
+            <!-- Hero -->
+            <div class="relative h-[85vh] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556910103-1c02745a872f?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-40"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
+                
+                <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+                    <span class="text-gold tracking-[0.3em] text-sm font-semibold uppercase mb-4 block">@NishitaPlates</span>
+                    <h1 class="font-serif text-5xl md:text-7xl text-white mb-6 leading-tight">Digital Gastronomy</h1>
+                    <p class="text-lg md:text-xl text-muted font-light max-w-2xl mx-auto mb-10">Where computer science precision meets the artistry of fine dining.</p>
+                    <button onclick="switchTab('posts')" class="inline-block border border-gold/50 text-gold px-8 py-3 uppercase tracking-widest text-sm hover:bg-gold hover:text-dark transition-all duration-300">
+                        View The Diary
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Me -->
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-6">
+                        <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-8"></div>
+                        <h2 class="font-serif text-4xl md:text-5xl text-white leading-tight">Compiling Flavors</h2>
+                        <p class="text-muted text-lg leading-relaxed font-light">
+                            Hi, I'm <strong class="text-white">Nishita</strong>. As a student at <strong class="text-white">Taylor's University</strong> bridging the worlds of <span class="text-terracotta italic">Computer Science</span> and <span class="text-gold italic">Culinary Management</span>, my approach to food is analytical yet deeply passionate.
+                        </p>
+                        <p class="text-muted text-lg leading-relaxed font-light">
+                            To me, a recipe is an algorithm. Just as code requires perfect syntax to execute efficiently, a dish requires immaculate technique, temperature control, and plating precision. My foodie identity isn't just about eating; it's about understanding the architecture of flavor and the logistics of the kitchen pass.
+                        </p>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute -inset-4 border border-gold/20 rounded-lg translate-x-4 translate-y-4 -z-10 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        <div class="zoom-container rounded-lg shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=800" alt="Precision Plating" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: CHEF FOCUS ================= -->
+        <section id="chef" class="tab-content">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+                <!-- Bio Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
+                    <div class="lg:col-span-5 relative group">
+                        <div class="zoom-container rounded-2xl shadow-2xl glass">
+                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=800" alt="Chef in action" class="w-full h-[500px] object-cover grayscale group-hover:grayscale-0">
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-7 space-y-8">
+                        <div>
+                            <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">Inspiration</span>
+                            <h2 class="font-serif text-4xl md:text-6xl text-white mb-4">Gordon <span class="italic text-gold">Ramsay</span></h2>
+                            <p class="text-muted text-lg leading-relaxed">
+                                Born in Johnstone, Scotland, Ramsay's journey from athlete to multi-Michelin-starred chef exemplifies rigorous discipline. Beyond his intense TV persona, he is a master technician. I am inspired by his relentless standards, precise butchery, and ability to elevate simple ingredients through foundational cooking methods.
+                            </p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="glass p-5 rounded-xl border-l-2 border-gold">
+                                <h3 class="text-gold font-semibold uppercase tracking-wider text-xs mb-2">Notable Media</h3>
+                                <ul class="text-sm text-light space-y-1 font-light">
+                                    <li>• Kitchen Nightmares</li>
+                                    <li>• Hell's Kitchen</li>
+                                    <li>• MasterChef</li>
+                                </ul>
+                            </div>
+                            <div class="glass p-5 rounded-xl border-l-2 border-terracotta">
+                                <h3 class="text-terracotta font-semibold uppercase tracking-wider text-xs mb-2">Key Cookbooks</h3>
+                                <ul class="text-sm text-light space-y-1 font-light">
+                                    <li>• Restaurant Gordon Ramsay</li>
+                                    <li>• Ultimate Home Cooking</li>
+                                    <li>• Bread Street Kitchen</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Grid -->
+                <h3 class="font-serif text-3xl text-white text-center mb-10">Media Analysis</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Media 1 -->
+                    <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
+                        <div class="relative h-56 zoom-container">
+                            <img src="https://images.unsplash.com/photo-1544025162-831c261e4d3f?auto=format&fit=crop&q=80&w=600" alt="Beef Wellington" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 glass px-3 py-1 rounded-full text-xs font-semibold text-white tracking-widest uppercase">Cookbook</div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h4 class="font-serif text-xl text-gold mb-3">The Signature Beef Wellington</h4>
+                            <p class="text-sm text-muted mb-4 flex-grow">
+                                This recipe represents the ultimate algorithm in moisture control and pastry technique. I chose this because it demands absolute precision in resting times—a perfect bridge between culinary art and scientific method.
+                            </p>
+                            <div class="pt-4 border-t border-white/10 text-xs text-light/70 font-mono">
+                                <span class="text-terracotta font-bold">Citation:</span> Ramsay, G. (2009). Gordon Ramsay's Great British Pub Food. HarperCollins. p. 142.
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Media 2 -->
+                    <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
+                        <div class="relative h-56 zoom-container">
+                            <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=600" alt="Scrambled Eggs" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 flex items-center justify-center bg-dark/30 group-hover:bg-transparent transition-colors">
+                                <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center pl-1 border border-white/30">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4 glass px-3 py-1 rounded-full text-xs font-semibold text-white tracking-widest uppercase">YouTube</div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h4 class="font-serif text-xl text-gold mb-3">Ultimate Scrambled Eggs</h4>
+                            <p class="text-sm text-muted mb-4 flex-grow">
+                                A masterclass in thermal dynamics. Taking the pan on and off the heat creates a perfect emulsion. It proves that exceptional results rely on foundational technique, not complex ingredients.
+                            </p>
+                            <div class="pt-4 border-t border-white/10 text-xs text-light/70 font-mono">
+                                <span class="text-terracotta font-bold">Citation:</span> Gordon Ramsay. (2011). Gordon Ramsay's Scrambled Eggs [Video]. YouTube.
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Media 3 -->
+                    <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
+                        <div class="relative h-56 zoom-container">
+                            <img src="https://images.unsplash.com/photo-1556910103-1c02745a872e?auto=format&fit=crop&q=80&w=600" alt="Kitchen Pass" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 glass px-3 py-1 rounded-full text-xs font-semibold text-white tracking-widest uppercase">Instagram</div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h4 class="font-serif text-xl text-gold mb-3">The Kitchen Pass</h4>
+                            <p class="text-sm text-muted mb-4 flex-grow">
+                                A raw, unfiltered glimpse into the synchronization of a Michelin three-star dinner service. I love this media item because it highlights the militant logistics and data-flow of a high-end brigade system.
+                            </p>
+                            <div class="pt-4 border-t border-white/10 text-xs text-light/70 font-mono">
+                                <span class="text-terracotta font-bold">Citation:</span> @gordongram. (2024). Friday night on the pass. Instagram.
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: FOODIE POSTS ================= -->
+        <section id="posts" class="tab-content">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+                <div class="text-center mb-16">
+                    <h2 class="font-serif text-4xl md:text-5xl text-white mb-4">The Culinary Logbook</h2>
+                    <p class="text-muted font-light max-w-2xl mx-auto">Authored foodie posts detailing the aesthetic, the angle, and the logic behind the plate.</p>
+                </div>
+
+                <div class="space-y-16">
+                    <!-- Post 1 -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-72">
+                            <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&q=80&w=800" alt="Flatlay Food" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50">
+                                    <span class="text-gold font-serif font-bold">N</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">@NishitaPlates</p>
+                                    <p class="text-xs text-muted">Kuala Lumpur, Malaysia</p>
+                                </div>
+                            </div>
+                            <p class="text-light text-lg">"Who says a dorm room can't run like a professional pass? Midnight cravings solved with perfectly fluffed basmati and a rich Sri Lankan varuval. Optimized for maximum flavor extraction. 🍛💻 #StudentChef #FlavorAlgorithms"</p>
+                            <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
+                                <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle & Lighting:</strong> Top-down flatlay (90 degrees) to showcase geometric composition. Shot using diffused natural window light to avoid harsh shadows, emphasizing the rich textures of the spices.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> I document not just the meal, but the system of assembling it under constraints.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row-reverse gap-8 items-center group">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-72">
+                            <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5e?auto=format&fit=crop&q=80&w=800" alt="Steak Prep" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50">
+                                    <span class="text-gold font-serif font-bold">N</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">@NishitaPlates</p>
+                                    <p class="text-xs text-muted">The Prep Kitchen</p>
+                                </div>
+                            </div>
+                            <p class="text-light text-lg">"Respecting the ingredient means understanding its structure before the heat is applied. Breaking down proteins today. Anatomy is just hardware waiting to be programmed by fire. 🥩🔪 #Butchery #CulinaryTech"</p>
+                            <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
+                                <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle & Lighting:</strong> 45-degree action shot with a shallow depth of field (f/2.8) to blur the background and draw the eye directly to the knife's edge. Dramatic side-lighting to highlight the marbling.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> Because true appreciation starts at the raw ingredient stage, analyzing quality before cooking begins.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 3 -->
+                    <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group">
+                        <div class="w-full md:w-1/2 zoom-container rounded-xl h-72">
+                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=800" alt="Fine Plating" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border border-gold/50">
+                                    <span class="text-gold font-serif font-bold">N</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">@NishitaPlates</p>
+                                    <p class="text-xs text-muted">Taylor's Culinary Lab</p>
+                                </div>
+                            </div>
+                            <p class="text-light text-lg">"The architecture of a sauce. A flawless reduction requires patience, exact temperature curves, and precise timing. The final compile is on the plate. 📐🥄 #FineDining #Gastronomy"</p>
+                            <div class="bg-surface/50 p-4 rounded-lg border border-white/5 mt-4">
+                                <h4 class="text-terracotta text-xs font-bold uppercase tracking-wider mb-2">The Aesthetic Logic</h4>
+                                <p class="text-sm text-muted"><strong class="text-white">Angle & Lighting:</strong> Extreme macro shot at plate level (0 degrees) to capture the gloss, viscosity, and height of the dish. Cool, clinical lighting to mimic a high-end restaurant pass.</p>
+                                <p class="text-sm text-muted mt-2"><strong class="text-white">Why I'm a foodie:</strong> I view plating as UI/UX design—the visual presentation dictates the user's (diner's) interaction with the flavors.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: RESTAURANT CRITIQUES (COUNTDOWN) ================= -->
+        <section id="critiques" class="tab-content">
+            <div class="min-h-[80vh] flex flex-col items-center justify-center px-4 relative">
+                <!-- Background FX -->
+                <div class="absolute inset-0 bg-dark z-0 overflow-hidden">
+                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-terracotta/10 rounded-full blur-[100px]"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/10 rounded-full blur-[100px]"></div>
+                </div>
+
+                <div class="relative z-10 w-full max-w-4xl">
+                    <!-- Glass Banner -->
+                    <div class="glass p-10 md:p-16 rounded-3xl text-center shadow-2xl border-t border-l border-white/20">
+                        <div class="inline-block p-4 bg-yellow-500/20 text-yellow-500 rounded-full mb-6">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        
+                        <h2 class="font-serif text-3xl md:text-5xl text-white mb-4 uppercase tracking-widest">Under Construction</h2>
+                        <p class="text-muted text-lg md:text-xl font-light italic mb-12">
+                            (Will be published on 11 Dec lol)
+                        </p>
+
+                        <!-- Countdown Timer Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-3xl mx-auto">
+                            <div class="bg-surface/60 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-md">
+                                <span id="days" class="block text-4xl md:text-6xl font-bold text-gold font-serif">00</span>
+                                <span class="text-xs uppercase tracking-widest text-muted mt-2 block">Days</span>
+                            </div>
+                            <div class="bg-surface/60 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-md">
+                                <span id="hours" class="block text-4xl md:text-6xl font-bold text-gold font-serif">00</span>
+                                <span class="text-xs uppercase tracking-widest text-muted mt-2 block">Hours</span>
+                            </div>
+                            <div class="bg-surface/60 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-md">
+                                <span id="minutes" class="block text-4xl md:text-6xl font-bold text-gold font-serif">00</span>
+                                <span class="text-xs uppercase tracking-widest text-muted mt-2 block">Minutes</span>
+                            </div>
+                            <div class="bg-surface/60 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-md">
+                                <span id="seconds" class="block text-4xl md:text-6xl font-bold text-gold font-serif animate-pulse text-terracotta">00</span>
+                                <span class="text-xs uppercase tracking-widest text-muted mt-2 block">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-white/5 py-8 mt-auto z-10 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center flex flex-col md:flex-row justify-between items-center">
+            <p class="font-serif text-lg text-white mb-2 md:mb-0">The Technical Gastronome</p>
+            <p class="text-muted text-xs tracking-widest uppercase">© 2026 Nishita | Taylor's University Assignment</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logistics -->
+    <script>
+        // --- 1. Tab Switching Logic ---
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active state from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Highlight selected nav link (desktop)
+            const activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) activeNav.classList.add('active');
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+
+        // --- 2. Countdown Timer Logic (Dec 11, 2026) ---
+        const countdownDate = new Date("Dec 11, 2026 00:00:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            // Time calculations
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result, padding with 0 if single digit
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            // If the countdown is finished
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
