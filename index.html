@@ -61,15 +61,12 @@
         .zoom-container img { transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .group:hover .zoom-container img { transform: scale(1.08); }
 
-        /* Scroll reveal */
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* Floating hero glow */
         @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
         .floaty { animation: floaty 6s ease-in-out infinite; }
 
-        /* Lightbox */
         #lightbox {
             position: fixed; inset: 0; z-index: 100; display: none;
             background: rgba(0,0,0,0.92); align-items: center; justify-content: center; padding: 1.5rem;
@@ -84,10 +81,8 @@
 </head>
 <body class="antialiased font-sans flex flex-col min-h-screen overflow-x-hidden selection:bg-terracotta selection:text-white">
 
-    <!-- Lightbox -->
     <div id="lightbox" onclick="this.classList.remove('open')"><img id="lightbox-img" src="" alt=""></div>
 
-    <!-- Navigation -->
     <nav class="fixed w-full top-0 z-50 glass border-b-0 border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -121,7 +116,6 @@
 
         <!-- ================= TAB 1: HOME ================= -->
         <section id="home" class="tab-content active">
-            <!-- Hero: fine dining plates -->
             <div class="relative h-[85vh] flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 bg-[url('fine-dining-40th.jpeg')] bg-cover bg-center opacity-40"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
@@ -136,7 +130,6 @@
                 </div>
             </div>
 
-            <!-- About Me -->
             <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div class="space-y-6 reveal">
@@ -158,7 +151,6 @@
                 </div>
             </div>
 
-            <!-- Behind the Code -->
             <div class="max-w-5xl mx-auto px-6 lg:px-8 pb-24">
                 <div class="glass rounded-3xl p-8 md:p-12 border-l-2 border-gold reveal">
                     <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">From Terminal to Kitchen</span>
@@ -172,7 +164,6 @@
                 </div>
             </div>
 
-            <!-- Kitchen Experience -->
             <div class="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
                 <div class="text-center mb-12 reveal">
                     <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">On the Line</span>
@@ -202,7 +193,6 @@
                 </div>
             </div>
 
-            <!-- Plating Sketchbook -->
             <div class="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
                 <div class="text-center mb-12 reveal">
                     <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">From Sketch to Service</span>
@@ -235,7 +225,7 @@
 
                     <article class="glass glass-hover rounded-2xl overflow-hidden group reveal">
                         <div class="zoom-container h-80 bg-dark">
-                            <img src="plating-digital-final.jpeg" alt="Finished digital sketch of the plate: a ring of prawn with diced cucumber, tomato and capsicum, cilantro and green herb oil dots" class="lightbox-trigger w-full h-full object-contain p-2">
+                            <img src="plating-digital-final.jpeg" alt="Finished digital sketch" class="lightbox-trigger w-full h-full object-contain p-2">
                         </div>
                         <div class="p-6">
                             <p class="text-xs text-terracotta uppercase tracking-wider font-bold mb-1">Step 3 · Digital final</p>
@@ -250,8 +240,6 @@
         <!-- ================= TAB 2: CHEF FOCUS (CASE STUDY) ================= -->
         <section id="chef" class="tab-content">
             <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
-
-                <!-- Case study header -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
                     <div class="lg:col-span-5 relative group reveal">
                         <div class="zoom-container rounded-2xl shadow-2xl glass">
@@ -268,7 +256,6 @@
                     </div>
                 </div>
 
-                <!-- Quick facts -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
                     <div class="glass rounded-2xl p-5 text-center reveal">
                         <span class="block font-serif text-3xl text-gold mb-1">1966</span>
@@ -288,7 +275,6 @@
                     </div>
                 </div>
 
-                <!-- In-page contents -->
                 <div class="flex flex-wrap justify-center gap-2 mb-20">
                     <a href="#cs-background" class="text-xs uppercase tracking-widest border border-white/10 hover:border-gold/60 hover:text-gold text-muted rounded-full px-4 py-2 transition-colors">Background</a>
                     <a href="#cs-timeline" class="text-xs uppercase tracking-widest border border-white/10 hover:border-gold/60 hover:text-gold text-muted rounded-full px-4 py-2 transition-colors">Timeline</a>
@@ -298,7 +284,6 @@
                     <a href="#cs-reflection" class="text-xs uppercase tracking-widest border border-white/10 hover:border-gold/60 hover:text-gold text-muted rounded-full px-4 py-2 transition-colors">My Reflection</a>
                 </div>
 
-                <!-- 1. Background -->
                 <div id="cs-background" class="scroll-mt-28 mb-24 reveal">
                     <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-6"></div>
                     <h3 class="font-serif text-3xl md:text-4xl text-white mb-6">Background</h3>
@@ -320,7 +305,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Timeline -->
                 <div id="cs-timeline" class="scroll-mt-28 mb-24">
                     <div class="reveal">
                         <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-6"></div>
@@ -341,7 +325,6 @@
                     </div>
                 </div>
 
-                <!-- 3. Case analysis -->
                 <div id="cs-analysis" class="scroll-mt-28 mb-24">
                     <div class="reveal">
                         <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-6"></div>
@@ -371,7 +354,6 @@
                     </div>
                 </div>
 
-                <!-- 4. Critical view -->
                 <div id="cs-critical" class="scroll-mt-28 mb-24">
                     <div class="reveal">
                         <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-6"></div>
@@ -394,7 +376,6 @@
                     </div>
                 </div>
 
-                <!-- 5. Media analysis -->
                 <div id="cs-media" class="scroll-mt-28 mb-24">
                     <div class="reveal">
                         <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-6"></div>
@@ -402,8 +383,6 @@
                         <p class="text-muted text-lg leading-relaxed font-light max-w-3xl mb-10">Three media items, one from print, one from video and one about his digital strategy. Each shows a different side of the brand.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                        <!-- NEW RECIPE CARD: Moroccan Lamb -->
                         <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group reveal">
                             <div class="relative h-64 grid grid-cols-2 gap-1 bg-dark">
                                 <div class="zoom-container h-full">
@@ -428,7 +407,6 @@
                             </div>
                         </article>
 
-                        <!-- COOK A PERFECT STEAK VIDEO -->
                         <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group reveal">
                             <div class="relative h-52 overflow-hidden">
                                 <a href="https://youtu.be/MtIiR7DBAqY" target="_blank" rel="noopener" class="block w-full h-full relative group/vid">
@@ -455,7 +433,6 @@
                             </div>
                         </article>
 
-                        <!-- GORDON'S SCRAMBLED TV SHOW W GUESTS -->
                         <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col group reveal">
                             <div class="relative h-52 zoom-container">
                                 <img src="gordon-scrambled-show.png" alt="Gordon with his guest Matthew McConaughey" class="w-full h-full object-cover">
@@ -477,7 +454,6 @@
                     </div>
                 </div>
 
-                <!-- 6. Reflection -->
                 <div id="cs-reflection" class="scroll-mt-28 mb-24">
                     <div class="reveal">
                         <div class="w-16 h-1 bg-gradient-to-r from-terracotta to-gold mb-6"></div>
@@ -525,8 +501,6 @@
                 </div>
 
                 <div class="space-y-16">
-
-                    <!-- Post 1: Francobolli -->
                     <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group reveal">
                         <div class="w-full md:w-1/2 space-y-3">
                             <div class="zoom-container rounded-xl h-96">
@@ -558,7 +532,6 @@
                         </div>
                     </div>
 
-                    <!-- Post 2: Toasted Tiffin -->
                     <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row-reverse gap-8 items-center group reveal">
                         <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
                             <img src="toasted-tiffin.jpeg" alt="Toasted tiffin stall sandwiches, prawn toast and pastries" class="lightbox-trigger w-full h-full object-cover">
@@ -580,7 +553,6 @@
                         </div>
                     </div>
 
-                    <!-- Post 3: 40th Anniversary -->
                     <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center group reveal">
                         <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
                             <img src="fine-dining-40th.jpeg" alt="Fine dining Malaysian lunch plates for the university 40th anniversary" class="lightbox-trigger w-full h-full object-cover">
@@ -602,7 +574,6 @@
                         </div>
                     </div>
 
-                    <!-- Post: Mandarin Oriental Desaru -->
                     <div class="glass p-6 md:p-8 rounded-2xl group reveal">
                         <div class="flex flex-col md:flex-row gap-8 items-center">
                             <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
@@ -651,7 +622,6 @@
                         </div>
                     </div>
 
-                    <!-- Post 4: Birthday -->
                     <div class="glass p-6 md:p-8 rounded-2xl flex flex-col md:flex-row-reverse gap-8 items-center group reveal">
                         <div class="w-full md:w-1/2 zoom-container rounded-xl h-96">
                             <img src="birthday-dinner.jpeg" alt="Birthday dinner spread" class="lightbox-trigger w-full h-full object-cover">
@@ -681,7 +651,6 @@
         <section id="critiques" class="tab-content">
             <div class="max-w-4xl mx-auto px-6 lg:px-8 py-16">
                 
-                <!-- Section Header -->
                 <div class="text-center mb-12 reveal">
                     <span class="text-terracotta tracking-[0.2em] text-xs font-semibold uppercase mb-3 block">Dual Food Writing & Comparative Critique</span>
                     <h2 class="font-serif text-4xl md:text-5xl text-white mb-4 leading-tight">A Tale of Two Kitchens</h2>
@@ -691,14 +660,12 @@
 
                 <article class="glass rounded-3xl p-8 md:p-12 space-y-12 text-light font-light leading-relaxed text-lg reveal">
                     
-                    <!-- ================= INTRODUCTION ================= -->
                     <div class="space-y-4">
                         <h3 class="font-serif text-2xl text-gold pb-2 border-b border-white/10">1. Introduction: The Shared DNA of SS15 Dining</h3>
                         <p>In modern culinary management, scaling an F&B business often relies on strategic real estate and shadow branding. In the competitive dining strip of SS15, Subang Jaya, Rata has long established itself as a bustling, high-volume dining favorite. Just two storefronts down sits Fortune Street—a newer establishment marketed as an "AM Café / PM Oriental Tapas" concept.</p>
                         <p>While marketed as distinct culinary destinations, dining at both establishments reveals a shared operational DNA under a single parent company. This dual-critique evaluates how Fortune Street and Rata use identical foundational kitchen infrastructure to target distinct consumer demographics, and how their shared logistics impact food quality, thermal control, and service speed.</p>
                     </div>
 
-                    <!-- ================= RESTAURANT 1: FORTUNE STREET ================= -->
                     <div class="space-y-6 pt-4 border-t border-white/10">
                         <div class="flex items-center justify-between">
                             <h3 class="font-serif text-2xl text-gold">2. Restaurant I: Fortune Street (The Vibe & Oriental Tapas)</h3>
@@ -707,7 +674,6 @@
                         
                         <p>Fortune Street prioritizes atmosphere. Stepping inside during the PM service, the environment drops into a moody dimness lit by amber backlighting behind the bar and neon red signage. The acoustic design encourages lingering over drinks and shared small plates, creating a sleek date-night environment.</p>
 
-                        <!-- Square Scrollable Menu Container: Fortune Street -->
                         <div class="glass rounded-2xl p-5 border border-white/10 my-6">
                             <div class="flex items-center justify-between mb-3">
                                 <h4 class="font-serif text-gold text-base">Fortune Street — Interactive Menu</h4>
@@ -717,14 +683,12 @@
                                 </span>
                             </div>
                             
-                            <!-- Square Template Frame -->
                             <div class="aspect-square w-full max-w-md mx-auto rounded-xl overflow-y-auto border border-white/20 bg-dark/90 p-2 shadow-inner">
                                 <iframe src="https://your-menu-link-here.com" class="w-full h-[600px] border-0 rounded-lg"></iframe>
                             </div>
                             <p class="text-[11px] text-muted text-center mt-2 font-mono">Tip: You can replace `1000009910.jpg` with an `<iframe>` link above to embed a live web menu.</p>
                         </div>
 
-                        <!-- Image 1: Fortune Street Exterior -->
                         <div class="zoom-container rounded-2xl overflow-hidden h-80 border border-white/10">
                             <img src="1000007691.jpg" alt="Fortune Street exterior neon signage" class="lightbox-trigger w-full h-full object-cover">
                             <p class="text-xs text-center text-muted p-2 bg-dark/70">Figure 1: The atmospheric neon exterior of Fortune Street during evening service.</p>
@@ -734,14 +698,12 @@
                         <p>At Fortune Street, we ordered the Lamb Arancini balls, the Katsu Sando, and the Prawn Toast. The Lamb Arancini demonstrates strong frying technicality: short-grain risotto rice bound around slow-braised lamb, breaded in coarse panko, and deep-fried at 175°C. The exterior crisp achieved an even golden-brown Maillard reaction without bursting, sitting on a stabilized chili-emulsion base that offset the heavy lipid coating on the tongue.</p>
                         <p>The Katsu Sando successfully combated moisture migration by utilizing thick-cut, toasted bread to shield against steamed protein juices. However, its immense vertical stack required cutery to consume, creating a slight friction with the casual, one-handed "tapas" concept.</p>
 
-                        <!-- Image 2: Fortune Street Spread -->
                         <div class="zoom-container rounded-2xl overflow-hidden h-96 border border-white/10">
                             <img src="1000007687.jpg" alt="Fortune Street food spread featuring croquettes and sando" class="lightbox-trigger w-full h-full object-cover">
                             <p class="text-xs text-center text-muted p-2 bg-dark/70">Figure 2: Evaluating the Lamb Arancini and Katsu Sando at Fortune Street.</p>
                         </div>
                     </div>
 
-                    <!-- ================= RESTAURANT 2: RATA ================= -->
                     <div class="space-y-6 pt-8 border-t border-white/10">
                         <div class="flex items-center justify-between">
                             <h3 class="font-serif text-2xl text-gold">3. Restaurant II: Rata (The Benchmark & Production Engine)</h3>
@@ -750,7 +712,6 @@
                         
                         <p>Dining at Rata provides the operational control variable. Rata operates at a higher volume and faster table turnover. The space is brighter and noisier, functioning as the primary high-capacity kitchen line for both venues.</p>
 
-                        <!-- Square Scrollable Menu Container: Rata -->
                         <div class="glass rounded-2xl p-5 border border-white/10 my-6">
                             <div class="flex items-center justify-between mb-3">
                                 <h4 class="font-serif text-gold text-base">Rata — Interactive Menu</h4>
@@ -760,23 +721,22 @@
                                 </span>
                             </div>
                             
-                            <!-- Square Template Frame -->
+                            <!-- Bug Fix: Added closing </div> here to stop it from swallowing the rest of the page -->
                             <div class="aspect-square w-full max-w-md mx-auto rounded-xl overflow-y-auto border border-white/20 bg-dark/90 p-2 shadow-inner">
                                 <iframe src="https://your-menu-link-here.com" class="w-full h-[600px] border-0 rounded-lg"></iframe>
+                            </div>
                             <p class="text-[11px] text-muted text-center mt-2 font-mono">Tip: Replace `1000009912.jpg` with an `<iframe>` link above to embed a live web menu.</p>
                         </div>
 
                         <h4 class="font-serif text-xl text-gold pt-2">Culinary Mechanics: Pulled Beef Pizza & Emulsified Pastas</h4>
                         <p>At Rata, we sampled the Pulled Beef Pizza, an array of rich pastas, and the Prawn Toast. The pizza demonstrates proper dough hydration and high-heat deck oven baking, resulting in a blistered crust with high tensile strength that held the heavy pulled beef without sagging. The pastas displayed proper sauce emulsification, leveraging starchy cooking water to bind butter and oils into a glossy, clingy coating.</p>
 
-                        <!-- Image 3: Rata Spread -->
                         <div class="zoom-container rounded-2xl overflow-hidden h-96 border border-white/10">
                             <img src="1000009915.jpg" alt="Food spread at Rata including pizza and pasta" class="lightbox-trigger w-full h-full object-cover">
                             <p class="text-xs text-center text-muted p-2 bg-dark/70">Figure 3: The control dinner at Rata featuring the Pulled Beef Pizza and pasta courses.</p>
                         </div>
                     </div>
 
-                    <!-- ================= COMPARATIVE ANALYSIS & LOGISTICS ================= -->
                     <div class="space-y-4 pt-8 border-t border-white/10">
                         <h3 class="font-serif text-2xl text-gold mb-4">4. Operational Comparative Analysis & Critique</h3>
                         
@@ -789,20 +749,17 @@
                         </ul>
                     </div>
 
-                    <!-- Image 4: Nishita Critique Photo -->
                     <div class="zoom-container rounded-2xl overflow-hidden h-96 border border-white/10 my-6">
                         <img src="1000007695.jpg" alt="Nishita analyzing the food structural integrity at Fortune Street" class="lightbox-trigger w-full h-full object-cover object-top">
                         <p class="text-xs text-center text-muted p-2 bg-dark/70">Figure 4: Evaluating portion sizing and physical plating presentation during service.</p>
                     </div>
 
-                    <!-- ================= CONCLUSION ================= -->
                     <div class="space-y-4 pt-4 border-t border-white/10">
                         <h3 class="font-serif text-2xl text-gold mb-4">5. Conclusion & Recommendations</h3>
                         <p>The Fortune Street and Rata ecosystem is a masterclass in modern restaurant engineering. By running two front-of-house brand identities off a unified back-of-house supply chain, the parent company maximizes revenue per square foot. While Fortune Street offers superior lighting and atmosphere, Rata delivers faster service and higher thermal precision due to its proximity to the hot line.</p>
                         <p>For culinary management professionals, this dual concept proves that while branding drives initial foot traffic, line logistics and the distance from pass to table dictate the final plate quality.</p>
                     </div>
 
-                    <!-- ================= REFERENCES ================= -->
                     <div class="pt-8 border-t border-white/10">
                         <h4 class="font-serif text-lg text-gold mb-2">References</h4>
                         <ul class="text-sm text-muted font-mono space-y-2">
@@ -810,7 +767,6 @@
                             <li>Gisslen, W. (2018). <em>Professional Cooking</em> (9th ed.). Wiley. (Referenced for deep-frying mechanics, moisture migration, and starch-fat sauce emulsification).</li>
                         </ul>
                     </div>
-
                 </article>
             </div>
         </section>
@@ -869,15 +825,24 @@
         const countdownDate = new Date("Dec 11, 2026 00:00:00").getTime();
         const timer = setInterval(function () {
             const distance = countdownDate - new Date().getTime();
+            
+            // Bug Fix: Added null checks to prevent console errors before the countdown HTML exists
+            const daysEl = document.getElementById("days");
+            if (!daysEl) return; 
+
             if (distance < 0) {
                 clearInterval(timer);
-                ["days", "hours", "minutes", "seconds"].forEach(id => document.getElementById(id).innerText = "00");
+                ["days", "hours", "minutes", "seconds"].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.innerText = "00";
+                });
                 return;
             }
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
             document.getElementById("days").innerText = String(days).padStart(2, '0');
             document.getElementById("hours").innerText = String(hours).padStart(2, '0');
             document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
